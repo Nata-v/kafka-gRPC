@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: ticket-microservice
+  datasource:
+      driver-class-name: org.postgresql.Driver
+      url: jdbc:postgresql://localhost:5432/ticket-db
+      username: postgres
+      password: root
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        ddl-auto: update
+
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+server:
+  port: 8080
+  servlet:
+    context-path: /
