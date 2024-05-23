@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutionException;
 public class TicketServiceImpl implements TicketService {
     private final TicketRepository ticketRepository;
     private final TicketMapper ticketMapper;
-    private KafkaTemplate<String, TicketDto> kafkaTemplate;
+    private final KafkaTemplate<String, TicketDto> kafkaTemplate;
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     public TicketServiceImpl(TicketRepository ticketRepository, TicketMapper ticketMapper, KafkaTemplate<String, TicketDto> kafkaTemplate) {

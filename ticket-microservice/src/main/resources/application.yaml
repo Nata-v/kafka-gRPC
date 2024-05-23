@@ -1,6 +1,8 @@
 spring:
   application:
     name: ticket-microservice
+
+
   datasource:
       driver-class-name: org.postgresql.Driver
       url: jdbc:postgresql://localhost:5432/ticket-db
@@ -19,3 +21,8 @@ server:
   port: 8080
   servlet:
     context-path: /
+
+grpc:
+  server:
+    port: 8088
+

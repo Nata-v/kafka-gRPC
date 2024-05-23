@@ -17,13 +17,14 @@ services:
     ports:
       - "9092:9092"
     environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://broker:29092
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 192
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT='zookeeper:2181'
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://broker:29092
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1
+      - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
+
     networks:
       - kafka-network
     depends_on:
@@ -51,7 +52,7 @@ services:
     image: postgres:14-alpine
     container_name: ticket-db
     ports:
-      - "5432:5432"
+      - "5431:5432"
     environment:
       - POSTGRES_DB=ticket-db
       - POSTGRES_USER=postgres
@@ -79,7 +80,7 @@ services:
     image: postgres:14-alpine
     container_name: notification-db
     ports:
-      - "5432:5432"
+      - "5431:5432"
     environment:
       - POSTGRES_DB=notification-db
       - POSTGRES_USER=postgres
@@ -91,64 +92,6 @@ services:
 networks:
   kafka-network:
     driver: bridge
-
-
-
-#  postgres:
-#    container_name: postgres
-#    image: postgres:16.1
-#    restart: always
-#    ports:
-#      - "5432:5432"
-#    environment:
-#      - POSTGRES_DB=ticket-db
-#      - POSTGRES_USER=postgres
-#      - POSTGRES_PASSWORD=root
-#    volumes:
-#      - volumes:/var/lib/postgresql/data
-
-
-
-
-
-
-
-#services:
-#  app:
-#    restart: always
-#    build: .
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      - postgres
-#      - kafka-1
-#    environment:
-#      SPRING_DATASOURCE_URL: 'jdbc:postgresql://postgres:5432/ticket-db'
-
-#  postgres:
-#    container_name: postgres
-#    image: postgres:16.1
-#    restart: always
-#    ports:
-#      - "5432:5432"
-#    environment:
-#      - POSTGRES_DB=ticket-db
-#      - POSTGRES_USER=postgres
-#      - POSTGRES_PASSWORD=root
-#    volumes:
-#      - volumes:/var/lib/postgresql/data
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #version: '3.8'
@@ -213,41 +156,6 @@ networks:
 
 
 
-
-
-
-
-
-
-
-
-
-
-#
-#  registration-service:
-#    build: ./EmailNotificationService
-#    container_name: EmailNotificationService
-#    ports:
-#      - "9095:9095"
-#    depends_on:
-#      - notification-db
-#    environment:
-#      - SPRING_DATASOURCE_URL=jdbc:postgresql://notification-db:5432/notification-db
-#      - SPRING_DATASOURCE_USER=postgres
-#      - SPRING_DATASOURCE_PASSWORD=root
-#      - POSTGRES_DRIVER=org.postgresql.Driver
-#
-#  notification-db:
-#    image: postgres:14-alpine
-#    container_name: notification-db
-#    ports:
-#      - "5432:5432"
-#    environment:
-#      - POSTGRES_DB=users
-#      - POSTGRES_USER=postgres
-#      - POSTGRES_PASSWORD=root
-#      - POSTGRES_DRIVER=org.postgresql.Driver
-#
 
 
 

@@ -1,0 +1,19 @@
+syntax = "proto3";
+package by.aston.webservice.ticketmicroservice.grpc;
+
+message TicketRequest {
+  string ticketNumber = 1;
+  string passengerName = 2;
+  string seatNumber = 3;
+  string  price = 4;
+
+}
+
+message TicketResponse {
+  string message = 1;
+
+}
+
+service TicketServiceGrpc {
+  rpc getTicketInfo(TicketRequest) returns (TicketResponse);
+}

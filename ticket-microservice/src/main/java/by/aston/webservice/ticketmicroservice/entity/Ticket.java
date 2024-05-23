@@ -11,6 +11,7 @@ import java.util.Objects;
 @EqualsAndHashCode
 @Getter
 @Setter
+@Builder
 @Entity
 @Table(name = "ticket")
 public class Ticket {

@@ -1,6 +1,7 @@
 package by.aston.webservice.ticketmicroservice.config;
 
 import by.aston.webservice.ticketmicroservice.dto.TicketDto;
+import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
+import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
@@ -18,10 +20,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@RequiredArgsConstructor
 public class KafkaConfig {
 
     @Autowired
-    Environment environment;
+    private  final Environment environment;
 //@Value("${spring.kafka.producer.bootstrap-servers}")
 
 //    @Value("localhost:9092, localhost:9094")
@@ -66,9 +69,10 @@ public class KafkaConfig {
     @Bean
     NewTopic createTopic() {
         return TopicBuilder.name("ticket-created-events-topic")
-                .partitions(3)
-                .replicas(3)
+                .partitions(1)
+                .replicas(1)
                 .configs(Map.of("min.insync.replicas", "1"))
                 .build();
     }
+
 }
