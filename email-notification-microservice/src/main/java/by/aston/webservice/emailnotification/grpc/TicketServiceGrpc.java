@@ -16,14 +16,14 @@ public class TicketServiceGrpc {
 
 
    public String getTicketInfo(String ticketNumber, String passengerName, String seatNumber, BigDecimal price) {
-
+      System.out.println(ticketNumber);
       TicketServiceGrpcOuterClass.TicketRequest request = TicketServiceGrpcOuterClass.TicketRequest
               .newBuilder().setTicketNumber(ticketNumber).setPassengerName(passengerName)
               .setSeatNumber(seatNumber).setPrice(price.toString()).build();
 
 
       TicketServiceGrpcOuterClass.TicketResponse response = stub.getTicketInfo(request);
-
+      System.out.println(response);
       return response.getMessage();
    }
 

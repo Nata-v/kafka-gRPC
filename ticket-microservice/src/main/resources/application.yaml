@@ -16,13 +16,14 @@ spring:
 
 
   liquibase:
+    enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
 server:
-  port: 8080
+  port: 9095
   servlet:
     context-path: /
 
-grpc:
-  server:
-    port: 8088
+#grpc:
+#  server:
+#    port: 8088
 

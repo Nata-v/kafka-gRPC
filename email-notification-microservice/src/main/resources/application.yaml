@@ -16,11 +16,13 @@ spring:
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
 server:
-  port: 8081
+  port: 9096
   servlet:
     context-path: /
 
+
 grpc:
+  port: 8089
   client:
     ticketService:
       address: localhost:8088

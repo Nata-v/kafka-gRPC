@@ -20,7 +20,7 @@ public class TicketController {
     private final TicketService ticketService;
     private final TicketServiceGrpc ticketServiceGrpc;
 
-    @GetMapping
+    @GetMapping("/info")
     public String getTicketInfo(
             @RequestParam String ticketNumber,
             @RequestParam String passengerName,

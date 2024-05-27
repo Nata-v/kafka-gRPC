@@ -1,6 +1,7 @@
 package by.aston.webservice.ticketmicroservice.controller;
 
 import by.aston.webservice.ticketmicroservice.dto.TicketDto;
+import by.aston.webservice.ticketmicroservice.grpc.TicketServiceGrpc;
 import by.aston.webservice.ticketmicroservice.service.TicketService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,11 +17,12 @@ import java.util.Date;
 @RestController
 @RequestMapping("/ticket")
 public class TicketController {
-
+    private final TicketServiceGrpc ticketServiceGrpc;
         private final TicketService ticketService;
         private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
-    public TicketController(TicketService ticketService) {
+    public TicketController(TicketServiceGrpc ticketServiceGrpc, TicketService ticketService) {
+        this.ticketServiceGrpc = ticketServiceGrpc;
         this.ticketService = ticketService;
     }
 

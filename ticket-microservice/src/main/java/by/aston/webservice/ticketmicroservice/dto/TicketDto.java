@@ -4,7 +4,7 @@ import jakarta.persistence.Column;
 
 import java.math.BigDecimal;
 
-public record TicketDto (Long id,
+public record TicketDto (
                          String ticketNumber,
                          String passengerName,
                          String seatNumber,
