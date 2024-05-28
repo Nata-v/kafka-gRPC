@@ -13,17 +13,17 @@ create TABLE IF NOT EXISTS ticket
     VARCHAR
 (
     50
-) NOT NULL ,
+) NOT NULL UNIQUE,
     passenger_name VARCHAR
 (
     128
 ) NOT NULL,
     seat_number VARCHAR
 (
-    10
-) NOT NULL ,
+    5
+) NOT NULL UNIQUE,
 
-price DECIMAL(10, 2)
+price DECIMAL(10, 2) NOT NULL
     );
 
 INSERT INTO ticket (ticket_number, passenger_name, seat_number, price)

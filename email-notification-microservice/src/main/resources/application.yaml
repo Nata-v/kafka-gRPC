@@ -1,3 +1,13 @@
+server:
+  port: 9096
+
+grpc:
+  client:
+    ticketService:
+      address: static://localhost:9090
+      negotiation-type: plaintext
+  port: 9097
+
 spring:
   application:
     name: email-notification-microservice
@@ -12,18 +22,19 @@ spring:
       hibernate:
         ddl-auto: update
 
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: ticket-created-events
+#      key-serializer: org.apache.kafka.common.deserialization.StringSerializer
+#      value-serializer: org.springframework.kafka.support.deserializer.JsonSerializer
+
 
   liquibase:
+    enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
-server:
-  port: 9096
-  servlet:
-    context-path: /
 
 
-grpc:
-  port: 8089
-  client:
-    ticketService:
-      address: localhost:8088
-      negotiation-type: plaintext
+
+
+

@@ -5,13 +5,12 @@ import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
-import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
@@ -20,39 +19,41 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@RequiredArgsConstructor
-public class KafkaConfig {
+//@RequiredArgsConstructor
+public class KafkaConfigProducer {
 
-    @Autowired
-    private  final Environment environment;
-//@Value("${spring.kafka.producer.bootstrap-servers}")
 
-//    @Value("localhost:9092, localhost:9094")
-//    private  String bootstrapServers;
+   // private final Environment environment;
+    @Value("${spring.kafka.bootstrap-servers}")
+    private String bootstrapServers;
 
-//    @Value("${spring.kafka.producer.key-serializer}")
+    //    @Value("${spring.kafka.producer.key-serializer}")
 //    private  String keySerializer;
 //
 //    @Value("${spring.kafka.producer.value-serializer}")
 //    private  String valueSerializer;
 //
-//    @Value("${spring.kafka.producer.acks}")
-//    private  String acks;
+    @Value("${spring.kafka.producer.acks}")
+    private String acks;
 
-    //@Value("${spring.kafka.producer.properties.enable.idempotence}")
-//    @Value("true")
-//    private boolean idempotence;
+    @Value("${spring.kafka.producer.properties.enable.idempotence}")
+    private boolean idempotence;
+//
+//    @Value("${spring.kafka.topic.name}")
+//    private String topicName;
 
 
+    @Bean
     Map<String, Object> producerConfigs() {
         Map<String, Object> config = new HashMap<>();
-        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, environment
-                .getProperty("spring.kafka.producer.bootstrap-servers"));
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+                //.getProperty("spring.kafka.producer.bootstrap-servers"));
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-        config.put(ProducerConfig.ACKS_CONFIG, environment.getProperty("spring.kafka.producer.acks"));
-        config.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, environment
-                .getProperty("spring.kafka.producer.properties.enable.idempotence"));
+        config.put(ProducerConfig.ACKS_CONFIG, acks);
+                //environment.getProperty("spring.kafka.producer.acks"));
+        config.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, idempotence);
+               // environment.getProperty("spring.kafka.producer.properties.enable.idempotence"));
         return config;
     }
 
@@ -74,5 +75,10 @@ public class KafkaConfig {
                 .configs(Map.of("min.insync.replicas", "1"))
                 .build();
     }
+//    @Bean
+//    public NewTopic phoneNumberUpdatesDLQTopic() {
+//        return TopicBuilder.name("DLQTopicName")
+//                .build();
+//    }
 
 }

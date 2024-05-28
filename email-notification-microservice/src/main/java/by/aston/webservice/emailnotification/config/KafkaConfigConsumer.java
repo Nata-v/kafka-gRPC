@@ -6,10 +6,11 @@ import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
@@ -22,32 +23,32 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@EnableKafka
+//@RequiredArgsConstructor
 
-public class KafkaConfig {
-    @Autowired
-     Environment environment;
-    // @Value("${spring.kafka.consumer.bootstrap-servers}")
-//   @Value("localhost:9092, localhost:9094")
-//    private String bootstrapServers;
-//
-//    //@Value("${spring.kafka.consumer.group-id}")
-//    @Value("order-created-events")
-//    private String groupId;
+public class KafkaConfigConsumer {
+
+    // private final Environment environment;
+    @Value("${spring.kafka.bootstrap-servers}")
+    private String bootstrapServers;
+
+    @Value("${spring.kafka.consumer.group-id}")
+    //@Value("order-created-events")
+    private String groupId;
+
 
     @Bean
     ConsumerFactory<String, TicketDto> consumerFactory() {
         Map<String, Object> config = new HashMap<>();
 
-        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, environment
-                .getProperty("spring.kafka.consumer.bootstrap-servers"));
+        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+               // environment.getProperty("spring.kafka.consumer.bootstrap-servers"));
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
         config.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class);
 
-        config.put(ConsumerConfig.GROUP_ID_CONFIG, environment
-                .getProperty("spring.kafka.consumer.group-id"));
-//        config.put(JsonDeserializer.TRUSTED_PACKAGES, environment
-//                .getProperty("spring.kafka.consumer.properties.spring.json.trusted.packages"));
+        config.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+               // environment.getProperty("spring.kafka.consumer.group-id"));
 
         JsonDeserializer<TicketDto> deserializer =
                 new JsonDeserializer<>(TicketDto.class, false);
@@ -59,9 +60,10 @@ public class KafkaConfig {
 
     @Bean
     ConcurrentKafkaListenerContainerFactory<String, TicketDto> kafkaListenerContainerFactory(
-            ConsumerFactory<String, TicketDto> consumerFactory, KafkaTemplate kafkaTemplate) {
+            ConsumerFactory<String, TicketDto> consumerFactory, KafkaTemplate<String, TicketDto> kafkaTemplate) {
 
         DefaultErrorHandler errorHandler = new DefaultErrorHandler(new DeadLetterPublishingRecoverer(kafkaTemplate));
+
 
         ConcurrentKafkaListenerContainerFactory<String, TicketDto> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory);
@@ -79,8 +81,8 @@ public class KafkaConfig {
     ProducerFactory<String, TicketDto> producerFactory() {
         Map<String, Object> config = new HashMap<>();
 
-        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, environment
-                .getProperty("spring.kafka.consumer.bootstrap-servers"));
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+              //  environment.getProperty("spring.kafka.consumer.bootstrap-servers"));
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 

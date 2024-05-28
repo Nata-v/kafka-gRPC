@@ -20,6 +20,7 @@ public class TicketController {
     private final TicketService ticketService;
     private final TicketServiceGrpc ticketServiceGrpc;
 
+    //http://localhost:9096/ticket/info?ticketNumber=ABC123&passengerName=Nata Volkova&seatNumber=12A&price=150.75
     @GetMapping("/info")
     public String getTicketInfo(
             @RequestParam String ticketNumber,
@@ -29,6 +30,8 @@ public class TicketController {
 
         return ticketServiceGrpc.getTicketInfo(ticketNumber, passengerName, seatNumber, price);
     }
+
+
     @PostMapping
     public ResponseEntity<String> createTicket(@RequestBody TicketDto ticketDto) throws ExecutionException, InterruptedException {
         String newTicket = ticketService.createTicket(ticketDto);
