@@ -24,16 +24,13 @@ import java.util.Map;
 
 @Configuration
 @EnableKafka
-//@RequiredArgsConstructor
 
 public class KafkaConfigConsumer {
 
-    // private final Environment environment;
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
     @Value("${spring.kafka.consumer.group-id}")
-    //@Value("order-created-events")
     private String groupId;
 
 
@@ -42,13 +39,11 @@ public class KafkaConfigConsumer {
         Map<String, Object> config = new HashMap<>();
 
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-               // environment.getProperty("spring.kafka.consumer.bootstrap-servers"));
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
         config.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class);
 
         config.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
-               // environment.getProperty("spring.kafka.consumer.group-id"));
 
         JsonDeserializer<TicketDto> deserializer =
                 new JsonDeserializer<>(TicketDto.class, false);
@@ -82,7 +77,6 @@ public class KafkaConfigConsumer {
         Map<String, Object> config = new HashMap<>();
 
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-              //  environment.getProperty("spring.kafka.consumer.bootstrap-servers"));
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
