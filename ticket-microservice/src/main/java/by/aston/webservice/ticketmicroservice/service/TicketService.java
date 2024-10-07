@@ -5,5 +5,5 @@ import by.aston.webservice.ticketmicroservice.dto.TicketDto;
 import java.util.concurrent.ExecutionException;
 
 public interface TicketService {
-    String createTicket (TicketDto ticketDto) throws ExecutionException, InterruptedException;
+    String createTicket(TicketDto ticketDto) throws ExecutionException, InterruptedException;
 }

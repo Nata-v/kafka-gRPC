@@ -1,5 +1,6 @@
 --liquibase formatted sql
 --changeset natallia:1
+
 --comment first migration
 
 

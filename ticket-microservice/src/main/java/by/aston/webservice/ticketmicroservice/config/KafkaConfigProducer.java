@@ -47,6 +47,7 @@ public class KafkaConfigProducer {
 
     @Bean
     KafkaTemplate<String, TicketDto> kafkaTemplate() {
+
         return new KafkaTemplate<String, TicketDto>(producerFactory());
     }
 

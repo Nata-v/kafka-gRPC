@@ -33,5 +33,4 @@ VALUES ('TN12345', 'Nata Volkova', 'A1', 123.45),
 
 
 
-
---rollback truncate table ticket;
+--rollback DELETE FROM ticket;

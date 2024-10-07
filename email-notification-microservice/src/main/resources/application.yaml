@@ -13,7 +13,7 @@ spring:
     name: email-notification-microservice
   datasource:
       driver-class-name: org.postgresql.Driver
-      url: jdbc:postgresql://localhost:5432/notification-db
+      url: jdbc:postgresql://localhost:5432/notifications
       username: postgres
       password: root
   jpa:
@@ -22,19 +22,24 @@ spring:
       hibernate:
         ddl-auto: update
 
+
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: kafka-1:9092
     consumer:
       group-id: ticket-created-events
-#      key-serializer: org.apache.kafka.common.deserialization.StringSerializer
-#      value-serializer: org.springframework.kafka.support.deserializer.JsonSerializer
 
 
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
 
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - prometheus
 
 
 

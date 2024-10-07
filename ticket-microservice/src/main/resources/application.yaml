@@ -9,18 +9,18 @@ spring:
     name: ticket-microservice
 
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: kafka-1:9092
     producer:
-      acks: all
       properties:
         enable:
           idempotence: true
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
 
   datasource:
       driver-class-name: org.postgresql.Driver
-      url: jdbc:postgresql://localhost:5432/ticket-db
+      url: jdbc:postgresql://localhost:5432/tickets
       username: postgres
       password: root
   jpa:
@@ -32,5 +32,14 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - prometheus
+
 
 
